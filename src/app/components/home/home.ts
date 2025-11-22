@@ -9,4 +9,11 @@ import { Header } from '../header/header';
 })
 export class Home {
 
+  public scrollTo(elementId: string): void {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
 }

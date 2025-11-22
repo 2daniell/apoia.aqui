@@ -21,13 +21,78 @@
         <a class="bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-800 transition cursor-pointer">
             Começar Campanha
         </a>
-        <a class="text-purple-700 px-6 py-3 rounded-lg font-semibold cursor-pointer">
+        <a (click)="scrollTo('how-works')" class="text-purple-700 px-6 py-3 rounded-lg font-semibold cursor-pointer">
             Como Funciona
         </a>
     </div>
 </section>
 
-<section class="px-12 py-20 bg-pink-700">
-    <h2 class="text-3xl font-bold">Lorem Ipsun</h2>
-    <p class="mt-4">Lorem ipsun, lorem ipsun...</p>
+<section id="how-works" class="flex items-center justify-center flex-col bg-purple-50 py-12">
+    <div class="flex items-center justify-center">
+        <h2 class="tracking-[0.25rem] text-xs text-gray-500 mb-2">
+            COMO FUNCIONA
+        </h2>
+    </div>
+    <div class="text-center">
+        <h1 class="text-3xl lg:text-4xl font-bold">Veja como é Fácil</h1>
+    </div>
+    <div class="flex px-12 flex-col lg:flex-row xl:px-56 w-full items-center justify-between mt-6 gap-6 lg:gap-0">
+        <div class="flex max-w text-center items-center flex-col">
+            <div class="text-white font-semibold h-10 w-10 bg-purple-700 rounded-full flex items-center justify-center">1</div>
+            <h1 class="font-semibold">Crie sua Campanha</h1>
+            <p class="text-gray-700">Tire sua ideia do papel</p>
+        </div>
+        <div class="flex max-w text-center items-center flex-col">
+            <div class="text-white font-semibold h-10 w-10 bg-purple-700 rounded-full flex items-center justify-center">2</div>
+            <h1 class="font-semibold">Conte para Todo Mundo</h1>
+            <p class="text-gray-700">Compartilhe com amigos e comunidade</p>
+        </div>
+        <div class="flex max-w text-center items-center flex-col">
+            <div class="text-white font-semibold h-10 w-10 bg-purple-700 rounded-full flex items-center justify-center">3</div>
+            <h1 class="font-semibold">Transforme Sonhos em Realidade</h1>
+            <p class="text-gray-700">Receba apoio e faça acontecer</p>
+        </div>
+    </div>
 </section>
+
+<section class="flex flex-col items-center justify-center px-8 lg:px-32 py-20 bg-white text-center">
+    <h2 class="tracking-[0.25rem] text-xs text-gray-500 mb-3">
+        QUEM SOMOS
+    </h2>
+
+    <h1 class="text-3xl lg:text-4xl font-bold mb-6">
+        Conectando Pessoas a Histórias que Merecem Apoio
+    </h1>
+
+    <p class="text-gray-600 text-sm md:text-base lg:text-lg leading-relaxed max-w-3xl">
+        Somos uma plataforma criada para facilitar a forma como ideias, causas e projetos ganham vida.
+        Acreditamos no poder da colaboração e na força das pessoas quando se unem por algo maior.
+        <br><br>
+        Aqui, tornamos simples o que sempre deveria ter sido simples:  
+        ajudar, compartilhar e transformar.
+    </p>
+</section>
+
+<footer class="w-full bg-purple-700 text-white py-10 px-8">
+    <div class="max-w-6xl mx-auto flex flex-col items-center text-center gap-4">
+
+        <div class="flex items-end select-none cursor-pointer">
+            <span class="text-3xl font-extrabold transform -skew-x-12">Apoia</span>
+            <span class="text-3xl font-extrabold text-white">.</span>
+            <span class="text-md font-semibold transform -skew-x-12">aqui</span>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 md:gap-8 mt-4 text-sm">
+            <a class="hover:underline cursor-pointer">Quem Somos</a>
+            <a class="hover:underline cursor-pointer">Como Funciona</a>
+            <a class="hover:underline cursor-pointer">Criar Campanha</a>
+            <a class="hover:underline cursor-pointer">Entrar</a>
+        </div>
+
+        <hr class="w-full border-white/30 my-6" />
+
+        <p class="text-xs text-white/70 mt-4">
+            © 2025 Apoia.aqui — Todos os direitos reservados.
+        </p>
+    </div>
+</footer>
