@@ -19,13 +19,14 @@
         <input
           type="email"
           formControlName="email"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+          class="w-full mt-1 px-4 py-2 border rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-purple-600"
           placeholder="Seu email"
         />
-        <p *ngIf="form.controls.email.invalid && form.controls.email.touched"
-           class="text-red-600 text-sm mt-1">
-          Informe um email válido.
-        </p>
+
+        @if (email?.invalid && email?.touched) {
+  <p class="text-red-600 text-sm mt-1">Informe um email válido.</p>
+}
       </div>
 
       <div>
@@ -33,18 +34,21 @@
         <input
           type="password"
           formControlName="senha"
-          class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+          class="w-full mt-1 px-4 py-2 border rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-purple-600"
           placeholder="Sua senha"
         />
-        <p *ngIf="form.controls.senha.invalid && form.controls.senha.touched"
-           class="text-red-600 text-sm mt-1">
-          A senha é obrigatória.
-        </p>
+
+        @if (senha?.invalid && senha?.touched) {
+  <p class="text-red-600 text-sm mt-1">A senha é obrigatória.</p>
+}
       </div>
 
       <button
         type="submit"
-        class="w-full bg-purple-700 hover:bg-purple-800 text-white py-2 rounded-lg font-bold mt-4 transition">
+        [disabled]="form.invalid"
+        class="w-full bg-purple-700 hover:bg-purple-800 disabled:bg-purple-400 
+               text-white py-2 rounded-lg font-bold mt-4 transition">
         Entrar
       </button>
 
@@ -52,7 +56,12 @@
 
     <p class="text-center text-gray-600 mt-4">
       Não tem conta?
-      <a class="text-purple-700 font-semibold hover:underline cursor-pointer">Criar conta</a>
+      <a
+        class="text-purple-700 font-semibold hover:underline cursor-pointer"
+        (click)="irParaRegistro()"
+      >
+        Criar conta
+      </a>
     </p>
 
   </div>
