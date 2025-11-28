@@ -7,7 +7,7 @@ import { Cadastro } from './components/cadastro/cadastro';
 export const routes: Routes = [
   { path: '', component: Home },
   { path: 'login', component: Login },
-  { path: 'campaign', redirectTo: '/' },
   { path: 'campaign/:id', component: Campaign },
+  { path: 'campaign', redirectTo: '/' },
   { path: 'cadastro', component: Cadastro },
 ];
