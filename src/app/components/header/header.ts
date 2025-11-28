@@ -10,7 +10,12 @@ import { Router } from '@angular/router';
   styleUrl: './header.css',
 })
 export class Header {
-  constructor(private router: Router) {}
+
+  public readonly router: Router;
+
+  constructor(router: Router) {
+    this.router = router;
+  }
 
   entrar() {
     this.router.navigate(['/login']);
