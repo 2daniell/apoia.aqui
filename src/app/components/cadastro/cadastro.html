@@ -1,1 +1,68 @@
-<p>cadastro works!</p>
+
+<div>
+
+  <div>
+
+    <div>
+      <span>Apoia</span>
+      <span>.</span>
+      <span>aqui</span>
+    </div>
+
+    <h2>
+      Criar sua conta
+    </h2>
+
+    <form [formGroup]="form" (ngSubmit)="enviar()">
+
+
+      <div>
+        <label>CPF</label>
+        <input type="text" formControlName="cpf" placeholder="Somente números" />
+        @if (cpf?.invalid && cpf?.touched) {
+          <p>Informe um CPF válido (11 dígitos).</p>
+        }
+      </div>
+
+      <div>
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="Seu email" />
+        @if (email?.invalid && email?.touched) {
+          <p>Informe um email válido.</p>
+        }
+      </div>
+
+      <div>
+        <label>Senha</label>
+        <input type="password" formControlName="senha" placeholder="Sua senha" />
+        @if (senha?.invalid && senha?.touched) {
+          <p>A senha deve ter no mínimo 6 caracteres.</p>
+        }
+      </div>
+
+      <div>
+        <label>Confirmar Senha</label>
+        <input type="password" formControlName="confirmarSenha" placeholder="Confirme sua senha" />
+        @if (confirmarSenha?.errors?.['mismatch'] && confirmarSenha?.touched) {
+          <p>As senhas não coincidem.</p>
+        }
+        @if (confirmarSenha?.invalid && confirmarSenha?.touched && !confirmarSenha?.errors?.['mismatch']) {
+          <p>Confirme sua senha.</p>
+        }
+      </div>
+
+      <button type="submit" [disabled]="form.invalid">
+        Registrar
+      </button>
+
+    </form>
+
+    <p>
+      Já tem uma conta?
+      <a (click)="voltarLogin()">
+        Entrar
+      </a>
+    </p>
+
+  </div>
+</div>
