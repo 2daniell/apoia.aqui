@@ -1,0 +1,56 @@
+<div>
+
+  <div>
+
+    <h1>
+      {{ titulo }}
+    </h1>
+
+    <p>
+      {{ autor }} · {{ categoria }}
+    </p>
+
+    <img [src]="imagem" alt="Imagem da campanha">
+
+    <p>
+      <a [href]="'https://' + urlCampanha" target="_blank">{{ urlCampanha }}</a>
+    </p>
+
+    <div>
+      <div>
+        <p>{{ mensagens }}</p>
+        <p>Mensagens</p>
+      </div>
+      <div>
+        <p>{{ doadores }}</p>
+        <p>Doadores</p>
+      </div>
+      <div>
+        <p>R$ {{ valorArrecadado | number:'1.2-2' }}</p>
+        <p>Arrecadado</p>
+      </div>
+    </div>
+
+    <div>
+      <p>Meta: R$ {{ meta | number:'1.2-2' }} · {{ percentual }}%</p>
+      <div>
+        <div [style.width.%]="percentual"></div>
+      </div>
+    </div>
+
+    <div>
+      <h2>Sobre esta Campanha</h2>
+      <p>{{ sobre }}</p>
+    </div>
+
+    <div>
+      <button (click)="compartilhar()">
+        Compartilhar
+      </button>
+      <button (click)="denunciar()">
+        Denunciar
+      </button>
+    </div>
+
+  </div>
+</div>
