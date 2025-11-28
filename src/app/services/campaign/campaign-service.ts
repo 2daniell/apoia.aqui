@@ -25,5 +25,9 @@ export class CampaignService {
   public getCampaignById(id: string): Observable<CampaignModel> {
     return this.httpClient.get<CampaignModel>(`${this.BASE_URL}/campaign/${id}`);
   }
+
+  public getAllCampaigns(): Observable<CampaignModel[]> {
+  return this.httpClient.get<CampaignModel[]>(`${this.BASE_URL}/campaign`);
+}
   
 }
