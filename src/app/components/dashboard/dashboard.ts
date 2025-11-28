@@ -1,32 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, signal, effect, computed } from '@angular/core';
+import { Header } from '../header/header';
 import { CampaignService } from '../../services/campaign/campaign-service';
-import { Header } from "../header/header";
+import { CampaignModel } from '../../model/campaign-model';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, Header],
+  imports: [Header],
   templateUrl: './dashboard.html'
 })
-export class Dashboard implements OnInit {
+export class Dashboard {
 
-  campaigns: any[] = [];
+  private readonly service: CampaignService;
 
-  constructor(private campaignService: CampaignService) {}
+  public campaigns = signal<CampaignModel[]>([]);
 
-  ngOnInit(): void {
-    this.loadCampaigns();
-  }
+  public campaignProgress = computed(() => {
+    return this.campaigns().map(c => {
+      const raised = parseFloat(c.raised);
+      const goal = parseFloat(c.goal);
 
-  loadCampaigns() {
-    this.campaignService.getAllCampaigns().subscribe({
-      next: (data) => {
-        this.campaigns = data;
-        console.log('Campanhas:', data);
-      },
-      error: (err) => console.error('Erro ao carregar campanhas', err)
+      const progress = goal === 0 ? 0 : Math.min(100, Math.round((raised / goal) * 100));
+
+      return {
+        ...c,
+        progress
+      };
+    });
+  });
+
+  public constructor(service: CampaignService) {
+    this.service = service;
+
+    effect(() => {
+      this.service.getAllCampaigns().subscribe({
+        next: (data) => this.campaigns.set(data),
+        error: (err) => console.error('Erro ao carregar campanhas', err)
+      });
     });
   }
-
 }
