@@ -1,65 +1,66 @@
 
-<div>
+<div class="min-h-screen flex items-center justify-center bg-gray-100 px-4">
 
-  <div>
+  <div class="w-full max-w-md bg-white shadow-xl rounded-2xl p-8">
 
-    <div>
-      <span>Apoia</span>
-      <span>.</span>
-      <span>aqui</span>
+    <div class="flex justify-center mb-6 select-none cursor-pointer">
+      <span class="text-4xl font-extrabold text-purple-700 transform -skew-x-12">Apoia</span>
+      <span class="text-4xl font-extrabold text-black">.</span>
+      <span class="text-xl text-black font-semibold transform -skew-x-12">aqui</span>
     </div>
 
-    <h2>
+    <h2 class="text-2xl font-extrabold text-center mb-6 text-gray-800">
       Criar sua conta
     </h2>
 
-    <form [formGroup]="form" (ngSubmit)="enviar()">
+    <form [formGroup]="form" (ngSubmit)="enviar()" class="flex flex-col gap-4">
 
 
       <div>
-        <label>CPF</label>
-        <input type="text" formControlName="cpf" placeholder="Somente números" />
+        <label class="text-gray-700 font-semibold">CPF</label>
+        <input type="text" formControlName="cpf" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+          placeholder="Somente números" placeholder="Somente números" />
         @if (cpf?.invalid && cpf?.touched) {
-          <p>Informe um CPF válido (11 dígitos).</p>
+          <p class="text-red-600 text-sm mt-1">Informe um CPF válido (11 dígitos).</p>
         }
       </div>
 
       <div>
-        <label>Email</label>
-        <input type="email" formControlName="email" placeholder="Seu email" />
+        <label class="text-gray-700 font-semibold">Email</label>
+        <input type="email" formControlName="email" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Seu email" />
         @if (email?.invalid && email?.touched) {
-          <p>Informe um email válido.</p>
+          <p class="text-red-600 text-sm mt-1">Informe um email válido.</p>
         }
       </div>
 
       <div>
-        <label>Senha</label>
-        <input type="password" formControlName="senha" placeholder="Sua senha" />
+        <label class="text-gray-700 font-semibold">Senha</label>
+        <input type="password" formControlName="senha" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Sua senha" />
         @if (senha?.invalid && senha?.touched) {
-          <p>A senha deve ter no mínimo 6 caracteres.</p>
+          <p class="text-red-600 text-sm mt-1">A senha deve ter no mínimo 6 caracteres.</p>
         }
       </div>
 
       <div>
-        <label>Confirmar Senha</label>
-        <input type="password" formControlName="confirmarSenha" placeholder="Confirme sua senha" />
+        <label class="text-gray-700 font-semibold">Confirmar Senha</label>
+        <input type="password" formControlName="confirmarSenha" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Confirme sua senha" />
         @if (confirmarSenha?.errors?.['mismatch'] && confirmarSenha?.touched) {
           <p>As senhas não coincidem.</p>
         }
         @if (confirmarSenha?.invalid && confirmarSenha?.touched && !confirmarSenha?.errors?.['mismatch']) {
-          <p>Confirme sua senha.</p>
+          <p class="text-red-600 text-sm mt-1">Confirme sua senha.</p>
         }
       </div>
 
-      <button type="submit" [disabled]="form.invalid">
+      <button type="submit" [disabled]="form.invalid" class="w-full bg-purple-700 hover:bg-purple-800 disabled:bg-purple-400 text-white py-2 rounded-lg font-bold mt-4 transition">
         Registrar
       </button>
 
     </form>
 
-    <p>
+    <p class="text-center text-gray-600 mt-4">
       Já tem uma conta?
-      <a (click)="voltarLogin()">
+      <a class="text-purple-700 font-semibold hover:underline cursor-pointer" (click)="voltarLogin()">
         Entrar
       </a>
     </p>

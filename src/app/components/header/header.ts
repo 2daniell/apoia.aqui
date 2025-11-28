@@ -15,6 +15,10 @@ export class Header {
   entrar() {
     this.router.navigate(['/login']);
   }
+  cadastrar() {
+    this.router.navigate(['/cadastro']);
+  }
+
 }
 
 
