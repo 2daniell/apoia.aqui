@@ -28,8 +28,8 @@ export class Login {
     return this.form.get('senha');
   }
 
-  irParaRegistro() {
-  this.router.navigate(['/register']);
+  irParaCadastro() {
+  this.router.navigate(['/cadastro']);
 }
 
   enviar() {
