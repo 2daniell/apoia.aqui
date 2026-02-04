@@ -21,7 +21,7 @@ public class UserService {
             throw new InvalidResourceException("CPF já registrado.");
         }
 
-        User user = new User(cpf);
+        User user = new User(cpf, firstName, lastName);
         user.setAccount(account);
 
         return repository.save(user);

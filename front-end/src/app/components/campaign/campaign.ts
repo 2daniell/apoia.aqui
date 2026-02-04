@@ -1,64 +1,73 @@
-import { Component, computed, effect, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Header } from '../header/header';
 import { CampaignModel } from '../../model/campaign-model';
 import { CampaignService } from '../../services/campaign/campaign-service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
 
 @Component({
   selector: 'app-campaign',
-  imports: [Header],
+  imports: [Header, CommonModule],
   templateUrl: './campaign.html',
   styleUrl: './campaign.css',
 })
 export class Campaign {
 
-  private readonly activatedRoute: ActivatedRoute;
-  private readonly service: CampaignService
-  private readonly campaignId: string | null = null;
+  private route = inject(ActivatedRoute);
 
-  public campaign = signal<CampaignModel | null>(null);
-  public hasError = signal<boolean>(false);
+  private campaignService = inject(CampaignService);
 
-  public progress = computed(() => {
+  private location = inject(Location)
+
+  private router = inject(Router)
+
+  campaign = signal<CampaignModel | null>(null);
+
+  percentage = computed(() => {
 
     const c = this.campaign();
-
     if (!c) return 0;
 
-    const raised = parseFloat(c.raised);
-    const goal = parseFloat(c.goal);
+    const raised = parseFloat(c.raised.replace('.', '').replace(',', '.'));
+    const goal = parseFloat(c.goal.replace('.', '').replace(',', '.'));
 
-    return Math.min(100, Math.round((raised / goal) * 100));
-  })
+    return Math.min((raised / goal) * 100, 100);
+  });
 
-  public campaignDaysAgo = computed(() => {
+  formattedDate = computed(() => {
+    const c = this.campaign();
+    if (!c?.createdAt) return "Indefinido";
 
-    const createdAt = this.campaign()?.createdAt;
+    return new Intl.DateTimeFormat('pt-BR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date(c.createdAt));
+  });
 
-    const createdDate = new Date(createdAt!);
-    const now = new Date();
+  public ngOnInit() {
 
-    const diffTime = now.getTime() - createdDate.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const id = this.route.snapshot.paramMap.get('id');
 
-    if (diffDays === 0) return 'Criado hoje';
-    if (diffDays === 1) return 'Criado há 1 dia atrás';
-    return `Criado há ${diffDays} dias atrás`;
-  })
+    if (!id) return;
 
-  public constructor(activatedRoute: ActivatedRoute, service: CampaignService) {
-    this.activatedRoute = activatedRoute;
-    this.campaignId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.service = service;
-    
-    effect(() => {
-      if (this.campaignId) {
-        this.service.getCampaignById(this.campaignId!).subscribe({
-          next: (c: CampaignModel) => this.campaign.set(c),
-          error: () => this.hasError.set(true)
-        })
-      }
-    })
+    this.load(id);
+  }
+
+  public back() {
+    if (window.history.length > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
+
+  public load(id: string) {
+
+    this.campaignService.getCampaignById(id).subscribe(c => {
+      this.campaign.set(c);
+    });
+
   }
 
 }

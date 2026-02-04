@@ -8,7 +8,7 @@ import { CampaignModel } from '../../model/campaign-model';
 })
 export class CampaignService {
 
-  private readonly BASE_URL = "http://localhost:3000";
+  private readonly BASE_URL = "http://localhost:8080";
 
   private readonly httpClient: HttpClient;
 
@@ -27,7 +27,11 @@ export class CampaignService {
   }
 
   public getAllCampaigns(): Observable<CampaignModel[]> {
-  return this.httpClient.get<CampaignModel[]>(`${this.BASE_URL}/campaign`);
-}
+    return this.httpClient.get<CampaignModel[]>(`${this.BASE_URL}/campaign`);
+  }
+
+  public getCampaigns(page: number = 1, pageSize: number = 3): Observable<CampaignModel[]> {
+    return this.httpClient.get<CampaignModel[]>(`${this.BASE_URL}/campaign/all?page=${page}&pageSize=${pageSize}`)
+  }
   
 }

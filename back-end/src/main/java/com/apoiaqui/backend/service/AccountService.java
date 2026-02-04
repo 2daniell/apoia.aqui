@@ -30,5 +30,9 @@ public class AccountService {
     public Optional<Account> findByEmail(String email) {
         return repository.findByEmailValue(email);
     }
+
+    public Optional<Account> findById(Long id) {
+        return repository.findById(id);
+    }
     
 }

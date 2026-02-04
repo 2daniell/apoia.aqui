@@ -2,7 +2,10 @@ package com.apoiaqui.backend.controller.auth;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +15,11 @@ import com.apoiaqui.backend.common.Pair;
 import com.apoiaqui.backend.controller.auth.request.SigninRequest;
 import com.apoiaqui.backend.controller.auth.request.SignupRequest;
 import com.apoiaqui.backend.controller.auth.response.AuthResponse;
+import com.apoiaqui.backend.controller.auth.response.UserResponse;
+import com.apoiaqui.backend.domain.entity.Account;
+import com.apoiaqui.backend.domain.entity.User;
+import com.apoiaqui.backend.domain.exception.NotFoundException;
+import com.apoiaqui.backend.service.AccountService;
 import com.apoiaqui.backend.service.AuthService;
 
 import jakarta.servlet.http.Cookie;
@@ -25,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService service;
+    private final AccountService accountService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> signUp(@RequestBody @Valid SignupRequest request, HttpServletResponse response) {
@@ -63,6 +72,18 @@ public class AuthController {
 
         return ResponseEntity.ok(new AuthResponse(tokens.getLeft()));
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me(@AuthenticationPrincipal Jwt jwt) {
+
+        Long subject = Long.parseLong(jwt.getSubject());
+        String email = jwt.getClaimAsString("email");
+
+        Account account = accountService.findById(subject).orElseThrow(() -> new NotFoundException("User not found"));
+        User user = account.getUser();
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new UserResponse(user.getId(), user.getFirstName(), email));
+    }   
 
     private void addRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);

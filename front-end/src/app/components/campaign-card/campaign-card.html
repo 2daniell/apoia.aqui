@@ -1,0 +1,54 @@
+<a [routerLink]="['/campaign', campaign()!.id]" class="block">
+    <div class="overflow-hidden cursor-pointer group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-xl border border-gray-200">
+
+        <div class="aspect-video relative overflow-hidden">
+
+            <div class="w-full h-full gradient-hero flex items-center justify-center bg-purple-400 animate-pulse">
+            </div>
+
+        </div>
+
+        <div class="p-4">
+            <h3 class="font-semibold text-lg mb-2 line-clamp-1 group-hover:text-purple-600 transition-colors">
+                {{ campaign().title }}
+            </h3>
+
+            <p class="text-sm text-gray-500 mb-4 line-clamp-2">
+                {{ campaign().description }}
+            </p>
+
+            <div class="space-y-3">
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                    <div class="bg-purple-600 h-2 rounded-full transition-all" [style.width.%]="percentage()"></div>
+                </div>
+                
+                <div class="flex items-center justify-between text-sm">
+                    <div>
+                        <span class="font-bold text-purple-600">
+                            R$ {{ campaign().raised }}
+                        </span>
+
+                        <span class="text-gray-500">
+                            de R$ {{ campaign().goal }}
+                        </span>
+                    </div>
+
+                    <span class="text-gray-500">
+                        {{ percentage() | number:'1.0-0' }}%
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-4 text-xs text-gray-500">
+                    <div class="flex items-center gap-1">
+                        <span>
+                            {{ campaign().donations }} apoiadores
+                        </span>
+                    </div>
+                    <span>
+                        por {{ campaign().ownerName }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>

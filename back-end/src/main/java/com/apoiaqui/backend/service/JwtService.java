@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtService {
 
     private static final String ISSUER = "apoia.aqui";
-    private static final long EXPIRATION = 60L * 5;
+    private static final long EXPIRATION = 60L * 5 * 10;
 
     private final JwtEncoder encoder;
 

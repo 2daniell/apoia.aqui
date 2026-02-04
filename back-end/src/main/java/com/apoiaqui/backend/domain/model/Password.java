@@ -24,7 +24,7 @@ public final class Password {
     private String value;
 
     private Password(String password) {
-        if (!validate(password)) throw new InvalidResourceException("A senha precisa ter pelo menos 6 digitos e um caracter especial");
+        if (!validate(password)) throw new InvalidResourceException("A senha precisa possuir letras maiusculas, minusculas e um caracter especial");
         this.value = passwordEncoder.encode(password);
     }
 

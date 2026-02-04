@@ -4,6 +4,7 @@ import { Login } from './components/login/login';
 import { Campaign } from './components/campaign/campaign';
 import { Cadastro } from './components/cadastro/cadastro';
 import { Dashboard } from './components/dashboard/dashboard';
+import { Explore } from './components/explore/explore';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: 'campaign/:id', component: Campaign },
   { path: 'campaign', redirectTo: '/' },
   { path: 'cadastro', component: Cadastro },
-  { path: 'dashboard', component: Dashboard },
+  { path: 'app/dashboard', component: Dashboard },
+  { path: 'explore', component: Explore },
 
 ];

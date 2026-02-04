@@ -49,7 +49,7 @@ public class SecurityConfiguration {
             .addFilterAfter(new CsrfCookieFilter(), CsrfFilter.class)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/campaign/all", "/h2-console/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(FormLoginConfigurer::disable)

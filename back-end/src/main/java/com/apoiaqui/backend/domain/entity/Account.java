@@ -30,7 +30,8 @@ public final class Account {
     @Embedded
     private Password password; 
 
-    @OneToOne
+    @OneToOne 
+    @Getter
     @JoinColumn(name = "user_id")
     private User user;
 

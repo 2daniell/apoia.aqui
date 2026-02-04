@@ -1,7 +1,8 @@
-import { Component, signal, effect, computed } from '@angular/core';
+import { Component, signal, effect, computed, inject } from '@angular/core';
 import { Header } from '../header/header';
 import { CampaignService } from '../../services/campaign/campaign-service';
 import { CampaignModel } from '../../model/campaign-model';
+import { AuthService } from '../../services/auth/auth-service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,32 +12,6 @@ import { CampaignModel } from '../../model/campaign-model';
 })
 export class Dashboard {
 
-  private readonly service: CampaignService;
-
-  public campaigns = signal<CampaignModel[]>([]);
-
-  public campaignProgress = computed(() => {
-    return this.campaigns().map(c => {
-      const raised = parseFloat(c.raised);
-      const goal = parseFloat(c.goal);
-
-      const progress = goal === 0 ? 0 : Math.min(100, Math.round((raised / goal) * 100));
-
-      return {
-        ...c,
-        progress
-      };
-    });
-  });
-
-  public constructor(service: CampaignService) {
-    this.service = service;
-
-    effect(() => {
-      this.service.getAllCampaigns().subscribe({
-        next: (data) => this.campaigns.set(data),
-        error: (err) => console.error('Erro ao carregar campanhas', err)
-      });
-    });
-  }
+  private auth = inject(AuthService)
+  public user = this.auth.user;
 }
