@@ -1,5 +1,5 @@
-<a [routerLink]="['/campaign', campaign()!.id]" class="block">
-    <div class="overflow-hidden cursor-pointer group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-xl border border-gray-200">
+<div class="block">
+    <div class="overflow-hidden group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 rounded-xl border border-gray-200">
 
         <div class="aspect-video relative overflow-hidden">
 
@@ -9,9 +9,11 @@
         </div>
 
         <div class="p-4">
-            <h3 class="font-semibold text-lg mb-2 line-clamp-1 group-hover:text-purple-600 transition-colors">
-                {{ campaign().title }}
-            </h3>
+            <a class="cursor-pointer" [routerLink]="['/campaign', campaign()!.id]">
+                <h3 class="font-semibold text-lg mb-2 line-clamp-1 group-hover:text-purple-600 transition-colors">
+                    {{ campaign()!.title }}
+                </h3>
+            </a>
 
             <p class="text-sm text-gray-500 mb-4 line-clamp-2">
                 {{ campaign().description }}
@@ -38,17 +40,45 @@
                     </span>
                 </div>
 
-                <div class="flex items-center gap-4 text-xs text-gray-500">
-                    <div class="flex items-center gap-1">
+                @if(showActions()) {
+                    <div class="flex gap-2">
+                        <button class="flex-1 border border-gray-300 py-1 rounded-md font-semibold text-gray-600 hover:text-gray-900 transition-colors duration-300">Ver</button>
+                        <a class="p-1 cursor-pointer" [routerLink]="['/campaign/edit', campaign()!.id]">
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            fill="#9810fa"
+                            >
+                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l9.06-9.06.92.92L5.92 19.58zM20.71 7.04a1.003 1.003 0 000-1.42l-2.34-2.34a1.003 1.003 0 00-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z"/>
+                            </svg>
+                        </a>
+                        <button class="p-1 cursor-pointer" (click)="onDelete()">
+                            <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            fill="#e53935"
+                            >
+                                <path d="M9 3h6l1 2h5v2H3V5h5l1-2zm1 6h2v9h-2V9zm4 0h2v9h-2V9zM6 9h2v9H6V9zm-1 13h14c1.1 0 2-.9 2-2V9H3v11c0 1.1.9 2 2 2z"/>
+                            </svg>
+                        </button>
+                    </div>
+                } @else {
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <div class="flex items-center gap-1">
+                            <span>
+                                {{ campaign().donations }} apoiadores
+                            </span>
+                        </div>
                         <span>
-                            {{ campaign().donations }} apoiadores
+                            por {{ campaign().ownerName }}
                         </span>
                     </div>
-                    <span>
-                        por {{ campaign().ownerName }}
-                    </span>
-                </div>
+                }
             </div>
         </div>
     </div>
-</a>
+</div>

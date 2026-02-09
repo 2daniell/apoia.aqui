@@ -1,0 +1,13 @@
+<div class="flex flex-col w-full min-h-screen">
+    <app-header />
+
+    <div class="px-4 pt-4">
+        <a [routerLink]="['/app/dashboard']" class="flex items-center gap-2 text-purple-600 font-semibold hover:underline">
+            ← Voltar
+        </a>
+    </div>
+
+    <main class="flex-1 flex justify-center items-center py-12 px-4">
+        <campaign-form (formSubmit)="create($event)" />
+    </main>
+</div>

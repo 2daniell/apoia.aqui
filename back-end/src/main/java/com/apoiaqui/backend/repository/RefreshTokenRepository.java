@@ -11,5 +11,6 @@ import com.apoiaqui.backend.domain.entity.RefreshToken;
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
 
     Optional<RefreshToken> findByToken(String token);
+    void deleteByToken(String token);
     
 }

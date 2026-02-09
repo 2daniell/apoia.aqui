@@ -10,9 +10,4 @@ import { AuthService } from './services/auth/auth-service';
 })
 export class App {
 
-  private auth = inject(AuthService);
-
-  public ngOnInit() {
-    this.auth.restoreSession().subscribe()
-  }
 }

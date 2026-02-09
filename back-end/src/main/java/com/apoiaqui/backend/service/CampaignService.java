@@ -2,6 +2,7 @@ package com.apoiaqui.backend.service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.apoiaqui.backend.domain.entity.Campaign;
 import com.apoiaqui.backend.domain.entity.User;
+import com.apoiaqui.backend.domain.exception.InvalidResourceException;
 import com.apoiaqui.backend.domain.exception.NotFoundException;
 import com.apoiaqui.backend.domain.exception.UnauthorizedException;
 import com.apoiaqui.backend.domain.model.DashboardStats;
@@ -31,6 +33,8 @@ public class CampaignService {
     @Transactional
     public Campaign create(String title, String description, BigDecimal goal, Long userId) {
 
+        if (goal.compareTo(BigDecimal.ZERO) <= 0) throw new InvalidResourceException("Não é permitido valor negativo!");
+
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Usuario não encontrado"));
 
         Campaign campaign = new Campaign(title, description, goal, user);
@@ -47,6 +51,10 @@ public class CampaignService {
             throw new UnauthorizedException("Não autorizado!");
         }
 
+        campaign.setDescription(description);
+        campaign.setTitle(title);
+        campaign.setGoal(goal);
+
         return repository.save(campaign);
     }
 
@@ -54,7 +62,7 @@ public class CampaignService {
         return repository.findByOwnerId(userId);
     }
 
-    public DashboardStats getUseDashboardStats(Long userId) {
+    public DashboardStats getUserDashboardStats(Long userId) {
         return repository.geStats(userId);
     }
 
@@ -64,6 +72,10 @@ public class CampaignService {
 
         Page<Campaign> result = repository.findAllByOrderByCreatedAtDesc(pageable);
         return result.getContent();
+    }
+
+    public Optional<Campaign> getCampaignById(String id) {
+        return repository.findById(UUID.fromString(id));
     }
 
     @Transactional

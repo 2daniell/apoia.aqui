@@ -53,6 +53,11 @@ public class RefreshTokenService {
         return repository.save(token);
     }
 
+    @Transactional
+    public void delete(String refreshToken) {
+        repository.deleteByToken(refreshToken);
+    }
+
     public boolean isExpired(RefreshToken token) {
         return token.getExpiryDate().isBefore(Instant.now());
     }

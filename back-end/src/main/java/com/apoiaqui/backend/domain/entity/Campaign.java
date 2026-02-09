@@ -13,11 +13,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "campaigns")
 @NoArgsConstructor
 public class Campaign {
@@ -57,6 +59,11 @@ public class Campaign {
 
     public void setOwner(User user) {
         this.owner = user;
+    }
+
+    public boolean isOwner(Long userId) {
+        if (userId == null ) return false;
+        return owner.getId().equals(userId);
     }
 
 }

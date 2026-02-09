@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { CampaignModel } from '../../model/campaign-model';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -13,22 +13,26 @@ export class CampaignCard {
 
   public campaign = input.required<CampaignModel>();
 
-  raised = computed(() =>
-    this.parseValue(this.campaign().raised)
+  public showActions = input<boolean>(false);
+
+  public delete = output<string>();
+
+  public raised = computed(() =>
+    this.campaign().raised
   );
 
-  goal = computed(() =>
-    this.parseValue(this.campaign().goal)
+  public goal = computed(() =>
+    this.campaign().goal
   );
 
-  percentage = computed(() => {
+  public percentage = computed(() => {
     const value = (this.raised() / this.goal()) * 100;
     return Math.min(value, 100);
   });
 
-  private parseValue(value: string): number {
-    return parseFloat(
-      value.replace('.', '').replace(',', '.')
-    );
+  public isOwner = computed(() => this.campaign().isOwner);
+
+  public onDelete() {
+    this.delete.emit(this.campaign().id)
   }
 }

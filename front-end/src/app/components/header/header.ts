@@ -1,29 +1,26 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../services/auth/auth-service';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
 export class Header {
 
-  public readonly router: Router;
+  private auth = inject(AuthService);
+  
+  public router = inject(Router);
 
-  constructor(router: Router) {
-    this.router = router;
-  }
+  public isAuthenticated = this.auth.isAuthenticated;
 
-  entrar() {
-    this.router.navigate(['/login']);
+  public logout() {
+    this.auth.logout().subscribe({ next: () => this.router.navigate(["/"])})
   }
-  cadastrar() {
-    this.router.navigate(['/cadastro']);
-  }
-
 }
 
 

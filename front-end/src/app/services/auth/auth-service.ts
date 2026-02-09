@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { AuthResponse, LoginRequest, RegisterRequest } from '../../model/aurh-model';
+import { catchError, of, switchMap, tap } from 'rxjs';
 import { User } from '../../model/user-model';
-import { Observable, of, switchMap, tap } from 'rxjs';
-import { LoginResponse } from '../../model/aurh-model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,57 +13,56 @@ export class AuthService {
   private readonly httpClient = inject(HttpClient);
 
   public user = signal<User | null>(null);
-  public accessToken = signal<string | null>(null);
 
-  public login(email: string, password: string) {
-    return this.httpClient.post<LoginResponse>(`${this.BASE_URL}/signin`, { password, email }, { withCredentials: true})
-      .pipe(tap(res => {
-        this.accessToken.set(res.accessToken)
+  public isAuthenticated = computed(() => !!this.user());
 
-        localStorage.setItem("token", res.accessToken)
+  private accessToken?: string
 
-    }),
+  public login(data: LoginRequest) {
+    return this.httpClient.post<AuthResponse>(`${this.BASE_URL}/signin`, data, { withCredentials: true }).pipe(
+      tap(res => this.setAcessToken(res.accessToken)),
+      switchMap(() => this.getMe())
+    );
+  }
+
+  public register(data: RegisterRequest) {
+    return this.httpClient.post<AuthResponse>(`${this.BASE_URL}/signup`, data, { withCredentials: true }).pipe(
+      tap(res => this.setAcessToken(res.accessToken)),
+      switchMap(() => this.getMe())
+    );
+  }
+  
+  public refresh() {
+    return this.httpClient.post<AuthResponse>(`${this.BASE_URL}/refresh`, {}, { withCredentials: true }).pipe(
+      tap(res => {
+        this.setAcessToken(res.accessToken)
+      }),
       switchMap(() => this.getMe())
     )
   }
 
-  public register(cpf: string, firtName: string, lastName: string, email: string, password: string, confirmPassword: string) {
-    return this.httpClient.post<LoginResponse>(`${this.BASE_URL}/signup`, { cpf, firtName, lastName, email, password, confirmPassword }, { withCredentials: true})
+  public logout() {
+    return this.httpClient.post(`${this.BASE_URL}/logout`, {}, { withCredentials: true }).pipe(tap(() => {
+      this.user.set(null);
+      this.accessToken = undefined;
+    }))
   }
 
-  public restoreSession(): Observable<User | null> {
-    const token = localStorage.getItem("token");
-
-    console.log("ANTES")
-
-    if (!token) return of(null);
-
-    console.log("PASOU")
-
-    this.accessToken.set(token);
-
-    return this.getMe();
+  public loadSession() {
+    return this.refresh().pipe(catchError(() => of(null)));
   }
 
-  public isLogged() {
-    return !!this.accessToken();
+  public getAcessToken(): string | undefined {
+    return this.accessToken;
   }
 
-  public getMe() {
-    const token = this.accessToken();
-
-    if (!token) {
-      return of(null);
-    }
-
-    return this.httpClient.get<User>(`${this.BASE_URL}/me`, { headers: { Authorization: `Bearer ${token}` }, withCredentials: true })
-      .pipe(
-        tap(user => {
-          this.user.set(user);
-          console.log(user)
-          console.log(user.name, user.email, user.id)
-      }),
-    );
+  private getMe() {
+    return this.httpClient.get<User>(`${this.BASE_URL}/me`, { withCredentials: true }).pipe(
+      tap(res => this.user.set(res))
+    )
   }
-  
+
+  private setAcessToken(token: string) {
+    this.accessToken = token;
+  }
 }

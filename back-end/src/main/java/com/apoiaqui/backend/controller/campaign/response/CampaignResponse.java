@@ -11,6 +11,7 @@ public record CampaignResponse(
     String ownerName,
     Integer donations,
     BigDecimal goal,
-    BigDecimal raised
+    BigDecimal raised,
+    boolean isOwner
 ) {}
 

@@ -21,20 +21,19 @@ export class Campaign {
 
   private router = inject(Router)
 
-  campaign = signal<CampaignModel | null>(null);
-
-  percentage = computed(() => {
+  public campaign = signal<CampaignModel | null>(null);
+  public percentage = computed(() => {
 
     const c = this.campaign();
     if (!c) return 0;
 
-    const raised = parseFloat(c.raised.replace('.', '').replace(',', '.'));
-    const goal = parseFloat(c.goal.replace('.', '').replace(',', '.'));
+    const raised = c.raised;
+    const goal = c.goal;
 
     return Math.min((raised / goal) * 100, 100);
   });
 
-  formattedDate = computed(() => {
+  public formattedDate = computed(() => {
     const c = this.campaign();
     if (!c?.createdAt) return "Indefinido";
 
@@ -62,7 +61,7 @@ export class Campaign {
     }
   }
 
-  public load(id: string) {
+  private load(id: string) {
 
     this.campaignService.getCampaignById(id).subscribe(c => {
       this.campaign.set(c);

@@ -73,6 +73,18 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(tokens.getLeft()));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@CookieValue("refreshToken") String refreshToken, HttpServletResponse response) {
+        
+        if (refreshToken != null) {
+            service.logout(refreshToken);
+        }
+
+        removeRefreshTokenCookie(response);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserResponse> me(@AuthenticationPrincipal Jwt jwt) {
 
@@ -82,15 +94,25 @@ public class AuthController {
         Account account = accountService.findById(subject).orElseThrow(() -> new NotFoundException("User not found"));
         User user = account.getUser();
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(new UserResponse(user.getId(), user.getFirstName(), email));
+        return ResponseEntity.status(HttpStatus.OK).body(new UserResponse(user.getId(), user.getFirstName(), email));
     }   
 
     private void addRefreshTokenCookie(HttpServletResponse response, String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setSecure(false);
-        cookie.setPath("/api/auth/refresh");
+        cookie.setPath("/");
         cookie.setMaxAge(7 * 24 * 60 * 60);
         response.addCookie(cookie);
     }
+
+    private void removeRefreshTokenCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
+
 }

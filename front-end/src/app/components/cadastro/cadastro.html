@@ -34,20 +34,36 @@
       </div>
 
       <div>
+        <label class="text-gray-700 font-semibold">Nome</label>
+        <input type="text" formControlName="firstName" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Seu Nome" />
+        @if (firstName?.invalid && firstName?.touched) {
+          <p class="text-red-600 text-sm mt-1">Informe um nome válido.</p>
+        }
+      </div>
+
+      <div>
+        <label class="text-gray-700 font-semibold">Sobrenome</label>
+        <input type="text" formControlName="lastName" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Seu Sobrenome" />
+        @if (lastName?.invalid && lastName?.touched) {
+          <p class="text-red-600 text-sm mt-1">Informe um sobrenome válido.</p>
+        }
+      </div>
+
+      <div>
         <label class="text-gray-700 font-semibold">Senha</label>
-        <input type="password" formControlName="senha" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Sua senha" />
-        @if (senha?.invalid && senha?.touched) {
+        <input type="password" formControlName="password" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Sua senha" />
+        @if (password?.invalid && password?.touched) {
           <p class="text-red-600 text-sm mt-1">A senha deve ter no mínimo 6 caracteres.</p>
         }
       </div>
 
       <div>
         <label class="text-gray-700 font-semibold">Confirmar Senha</label>
-        <input type="password" formControlName="confirmarSenha" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Confirme sua senha" />
-        @if (confirmarSenha?.errors?.['mismatch'] && confirmarSenha?.touched) {
+        <input type="password" formControlName="confirmPassword" class="w-full mt-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600" placeholder="Confirme sua senha" />
+        @if (confirmPassword?.errors?.['mismatch'] && confirmPassword?.touched) {
           <p>As senhas não coincidem.</p>
         }
-        @if (confirmarSenha?.invalid && confirmarSenha?.touched && !confirmarSenha?.errors?.['mismatch']) {
+        @if (confirmPassword?.invalid && confirmPassword?.touched && !confirmPassword?.errors?.['mismatch']) {
           <p class="text-red-600 text-sm mt-1">Confirme sua senha.</p>
         }
       </div>

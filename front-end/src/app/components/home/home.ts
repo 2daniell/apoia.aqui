@@ -33,8 +33,8 @@ export class Home {
       next: (data) => {
         this.campaigns.set(data)
       },
-      error: () => {
-
+      error: (err) => {
+        console.log("Erro (err1)", err)
       }
     })
   }

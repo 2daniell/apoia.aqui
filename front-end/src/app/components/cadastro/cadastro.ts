@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-
+import { RegisterRequest } from '../../model/aurh-model';
+import { AuthService } from '../../services/auth/auth-service';
 
 @Component({
   selector: 'app-cadastro',
@@ -13,19 +13,32 @@ import { Router } from '@angular/router';
   styleUrl: './cadastro.css',
 })
 export class Cadastro {
+
   form: FormGroup;
+
+  private service = inject(AuthService)
 
   constructor(private fb: FormBuilder,private router: Router) {
     this.form = this.fb.group({
-      cpf: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
+      cpf: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      senha: ['', [Validators.required, Validators.minLength(6)]],
-      confirmarSenha: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
     });
   }
 
   get nome() {
     return this.form.get('nome');
+  }
+
+  get firstName() {
+    return this.form.get("firstName");
+  }
+
+  get lastName() {
+    return this.form.get("lastName");
   }
 
   get cpf() {
@@ -36,12 +49,12 @@ export class Cadastro {
     return this.form.get('email');
   }
 
-  get senha() {
-    return this.form.get('senha');
+  get password() {
+    return this.form.get('password');
   }
 
-  get confirmarSenha() {
-    return this.form.get('confirmarSenha');
+  get confirmPassword() {
+    return this.form.get('confirmPassword');
   }
 
     voltarLogin() {
@@ -51,10 +64,14 @@ export class Cadastro {
     enviar() {
     if (this.form.invalid) return;
 
-    if (this.senha?.value !== this.confirmarSenha?.value) {
-      this.confirmarSenha?.setErrors({ mismatch: true });
+    if (this.password?.value !== this.confirmPassword?.value) {
+      this.confirmPassword?.setErrors({ mismatch: true });
       return;
     }
+
+    const data: RegisterRequest = this.form.getRawValue();
+
+    this.service.register(data).subscribe(() => this.router.navigate(["/app/dashboard"]))
   }
 
 }

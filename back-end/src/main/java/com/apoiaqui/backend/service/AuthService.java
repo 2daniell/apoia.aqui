@@ -51,6 +51,10 @@ public class AuthService {
         return Pair.of(accessToken, refreshToken);
     }
 
+    public void logout(String refreshToken) {
+        refreshTokenService.delete(refreshToken);
+    }
+
     public Pair<String, String> refresh(String refreshToken) {
          
         RefreshToken token = refreshTokenService.refresh(refreshToken);

@@ -55,27 +55,48 @@
     </div>
 </section>
 
-<section class="flex flex-col px-8 lg:px-32 py-20 bg-white w-full">
-    <div class="flex items-center justify-between w-full">
-        <div class="flex flex-col items-start">
-            <h1 class="text-3xl lg:text-4xl font-bold">Campanhas em Destaque</h1>
-            <p class="text-gray-600 ">Descubra causas incriveis que precisam do seu apoio</p>
+@if (campaigns().length === 3) {
+    <section class="flex flex-col px-8 lg:px-32 py-20 bg-white w-full">
+        <div class="flex items-center justify-between w-full">
+            <div class="flex flex-col items-start">
+                <h1 class="text-3xl lg:text-4xl font-bold">Campanhas em Destaque</h1>
+                <p class="text-gray-600 ">Descubra causas incriveis que precisam do seu apoio</p>
+            </div>
+            <div>
+                <a routerLink="/explore" class="border rounded-xl border-gray-300 px-6 py-2 hover:text-white hover:bg-purple-700 transition-colors duration-300">
+                    Ver Todas
+                </a>
+            </div>
         </div>
-        <div>
-            <a routerLink="/explore" class="border rounded-xl border-gray-300 px-6 py-2 hover:text-white hover:bg-purple-700 transition-colors duration-300">
-                Ver Todas
-            </a>
-        </div>
-    </div>
 
-    <div class="flex items-center justify-center gap-12 mt-10">
-        @for (c of campaigns(); track c.id) {
-            <campaign-card
-            [campaign]="c"
-            />
-        }
-    </div>
-</section>
+        <div class="flex items-center justify-center gap-12 mt-10">
+            @for (c of campaigns(); track c.id) {
+                <campaign-card
+                class="w-full"
+                [campaign]="c"
+                />
+            }
+        </div>
+    </section>
+} @else {
+    <section class="flex flex-col items-center justify-center px-8 lg:px-32 py-20 bg-white text-center">
+        <h2 class="tracking-[0.25rem] text-xs text-gray-500 mb-3">
+            QUEM SOMOS
+        </h2>
+
+        <h1 class="text-3xl lg:text-4xl font-bold mb-6">
+            Conectando Pessoas a Histórias que Merecem Apoio
+        </h1>
+
+        <p class="text-gray-600 text-sm md:text-base lg:text-lg leading-relaxed max-w-3xl">
+            Somos uma plataforma criada para facilitar a forma como ideias, causas e projetos ganham vida.
+            Acreditamos no poder da colaboração e na força das pessoas quando se unem por algo maior.
+            <br><br>
+            Aqui, tornamos simples o que sempre deveria ter sido simples:  
+            ajudar, compartilhar e transformar.
+        </p>
+    </section>
+}
 
 <footer class="w-full bg-purple-700 text-white py-10 px-8">
     <div class="max-w-6xl mx-auto flex flex-col items-center text-center gap-4">

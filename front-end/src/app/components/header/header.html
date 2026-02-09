@@ -5,10 +5,21 @@
             <span class="text-3xl font-extrabold text-black">.</span>
             <span class="text-md text-black font-semibold transform -skew-x-12">aqui</span>
         </a>
-        @if(router.url === '/') {
+
+        @if(isAuthenticated()) {
+            <div class="flex items-center gap-4">
+
+                @if (router.url === "/") {
+                    <a class="cursor-pointer font-bold text-white bg-purple-600 px-4 py-2 rounded-md" [routerLink]="['/app/dashboard']">Entrar</a>
+                } @else {
+                    <a class="cursor-pointer font-bold text-white bg-purple-600 px-4 py-2 rounded-md" [routerLink]="['/campaign/new']">Criar Campanha</a>
+                }
+                <button class="font-semibold tracking-wide hover:text-purple-600 hover:underline transition-colors duration-300 cursor-pointer" (click)="logout()">Sair</button>
+            </div>
+        } @else {
             <div class="flex items-center font-bold gap-4">
-                <button class="cursor-pointer" (click)="entrar()">Entrar</button>
-                <a class="text-white bg-purple-700 px-4 py-2 rounded-lg cursor-pointer">Começar</a>
+                <a class="cursor-pointer" [routerLink]="['/login']">Entrar</a>
+                <a class="text-white bg-purple-700 px-4 py-2 rounded-lg cursor-pointer" [routerLink]="['/cadastro']">Começar</a>
             </div>
         }
     </nav>

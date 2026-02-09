@@ -1,10 +1,14 @@
 <div class="min-h-screen flex flex-col bg-muted/30">
     <app-header />
     
-    <main class="flex-1 px-12 py-8">
-        <button (click)="back()" class="mb-6 flex items-center text-sm text-white bg-purple-600 px-6 py-2 rounded-md cursor-pointer">
-            Voltar
+    <div class="px-4 pt-4">
+        <button (click)="back()" class="flex items-center gap-2 text-purple-600 font-semibold hover:underline">
+            ← Voltar
         </button>
+    </div>
+
+    @if (campaign()) {
+    <main class="flex-1 px-12 py-8">
 
         <div class="grid lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-6">
@@ -89,4 +93,9 @@
             </div>
         </div>
     </main>
+    } @else {
+        <div class="flex items-center justify-center flex-1">
+            <h1 class="font-bold text-2xl text-purple-600">Não encontrado</h1>
+        </div>
+    }
 </div>

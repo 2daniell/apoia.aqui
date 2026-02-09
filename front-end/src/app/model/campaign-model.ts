@@ -5,6 +5,13 @@ export interface CampaignModel {
     createdAt?: string,
     ownerName: string,
     donations: number
-    goal: string
-    raised: string
+    goal: number
+    raised: number
+    isOwner: boolean
+}
+
+export interface CampaignRequest {
+    title: string;
+    goal: number;
+    description: string;
 }
